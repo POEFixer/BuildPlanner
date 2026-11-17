@@ -101,6 +101,26 @@ struct PlanInput {
     bool useTiers = true;
 };
 
+// Whose class start and which ascendancy a plan is made for (PlanInput::className / ascendancy),
+// decided from the build and from what the game says about the character.
+struct PlanIdentity {
+    std::string className;       // PlanInput::className
+    std::string ascendancy;      // PlanInput::ascendancy (a nodesName; "" = no ascendancy is ordered)
+    bool classDiffers = false;   // the character's class or ascendancy is not the build's
+};
+// buildClassId / charClassId: the tree data's integer class id, -1 unknown. buildClassName: the name
+// of the build's class ("" unknown). buildAscendancy / charAscendancy: nodesName, "" none.
+// charKnown false: nothing is known about the character, the plan is for the build's own class and
+// ascendancy and nothing differs.
+// With a known character: its class name and its ascendancy are used when it has them. A character of
+// ANOTHER class that has no ascendancy yet gets none: it can never take the build's ascendancy, so
+// nothing of it is ordered, counted or offered as the next objective (BuildPlan still gives its nodes
+// a state, like the nodes of any ascendancy that is not the ordered one). Classes whose ids are both
+// known and equal, or of which one is unknown, are not "another class".
+PlanIdentity ResolvePlanIdentity(int buildClassId, const std::string& buildClassName, const std::string& buildAscendancy,
+                                 bool charKnown, int charClassId, const std::string& charClassName,
+                                 const std::string& charAscendancy);
+
 struct PlanStep {
     uint32_t node = kNoIndex;        // tree node index
     uint32_t objective = kNoIndex;   // the objective this step walks to (itself for an objective); kNoIndex none

@@ -68,6 +68,12 @@ public:
     StoredBuild* Find(std::string_view id);
     const StoredBuild* Find(std::string_view id) const;
     int IndexOf(std::string_view id) const;   // -1 unknown
+    // The first stored build whose content equals what Add would store of `build` (BuildData's
+    // operator== after Add's caps): the same class, level, trees, skill sets, item sets and items,
+    // whatever its name, source, import time and pins. nullptr when there is none, or when the
+    // comparison could not be made (out of memory). For an import of a build the list already has:
+    // the caller follows that one instead of adding a second row.
+    const StoredBuild* FindSame(const BuildData& build) const noexcept;
 
     // Adds an imported build with a new id and returns that id; "" when the store is full
     // (kMaxBuilds) or the build has no tree. The caps apply (named in `warnings`). `name` "" =

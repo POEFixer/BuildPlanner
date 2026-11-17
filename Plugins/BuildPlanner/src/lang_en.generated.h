@@ -256,6 +256,7 @@ inline constexpr PluginSDK::I18n::Entry kPluginLangEn[] = {
     { "import_problem_not_found", "The site has no build under this link. It may have expired or the link is cut off: copy the link again." },
     { "import_problem_parse", "The build was not imported: {detail}. Export it again from Path of Building (PoE2) and import the new code." },
     { "import_problem_unrecognized", "This is neither a build link nor a Path of Building code. Paste a link from pobb.in, poe.ninja, Maxroll, poe2db or pastebin, or a code exported from Path of Building (PoE2)." },
+    { "import_same", "This build is already in your list as {name}: nothing was added. It is followed now: open the passive tree, the inventory or the Skills window in the game." },
     { "import_store_full", "The build was not saved: the list of saved builds is full. Delete a build you no longer use and import again." },
     { "import_title", "Import a build" },
     { "ov_attr_dex", "Dexterity" },

@@ -655,6 +655,27 @@ int BuildStore::IndexOf(std::string_view id) const {
     return -1;
 }
 
+const StoredBuild* BuildStore::FindSame(const BuildData& build) const noexcept {
+    try {
+        if (builds.empty() || build.specs.empty()) return nullptr;
+        // What Add would keep of it: stored builds went through the same caps (on Add and on every
+        // load), so only a cleaned copy can equal one of them.
+        BuildData candidate = build;
+        Warn silent;
+        CleanData(candidate, std::string(), silent);
+        for (const StoredBuild& b : builds) {
+            // The cheap differences first: most builds of a list differ here.
+            if (b.level != candidate.level || b.specs.size() != candidate.specs.size() ||
+                b.items.size() != candidate.items.size() || b.className != candidate.className)
+                continue;
+            if (static_cast<const BuildData&>(b) == candidate) return &b;
+        }
+    } catch (...) {
+        // Out of memory while copying: "not found" lets the import add the build as before.
+    }
+    return nullptr;
+}
+
 std::string BuildStore::DefaultName(const BuildData& build, const std::string& source) {
     try {
         std::string name = Trim(build.className);

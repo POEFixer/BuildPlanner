@@ -1018,6 +1018,19 @@ void App::ApplyImport(JobResult& r) {
         if (!cancelled) LogInfo("import failed: " + r.import.detail);
         return;
     }
+    // The same build again (the trees, skills and items of a build the list already has): no second
+    // row. The build of the list is followed, as a fresh import would be. Copies first: SelectBuild
+    // rebuilds what points into the store.
+    if (const StoredBuild* same = m_store.FindSame(r.import.build)) {
+        const std::string id = same->id, name = same->name;
+        for (const std::string& w : r.import.warnings) LogInfo("import: " + w);
+        LogInfo("import: the build is already in the list (" + id + "), nothing was added");
+        m_lastImportedId = id;
+        SelectBuild(id);
+        note.tone = JobNote::Tone::Ok;
+        note.text = TrF("import_same", {{"name", name}});
+        return;
+    }
     std::vector<std::string> warnings;
     bool tooLarge = false;
     // AddWithinLimit may reallocate the store's vector on EVERY path (it adds the build and, when
@@ -1146,17 +1159,17 @@ void App::RebuildDerived() {
             for (int i = 0; i < m_active.sets.spec; ++i) in.earlierSpecs.push_back(&build->specs[static_cast<size_t>(i)]);
         const ClassInfo* buildClass = m_tree->ClassById(spec->classId);
         const AscendancyInfo* buildAsc = m_tree->AscendancyById(spec->ascendancyId);
-        in.className = buildClass ? buildClass->name : std::string();
-        in.ascendancy = buildAsc ? buildAsc->nodesName : std::string();
+        // Ascendancies are compared by the nodes they use (nodesName), never by internalId: an
+        // Abyssal Lich has only Lich nodes, so the game's data reads as "Witch3" for it.
+        const PlanIdentity who = ResolvePlanIdentity(spec->classId, buildClass ? buildClass->name : std::string(),
+                                                     buildAsc ? buildAsc->nodesName : std::string(), c.valid, c.classId,
+                                                     c.className, c.ascendancy);
+        in.className = who.className;
+        in.ascendancy = who.ascendancy;
+        m_plan.classDiffers = who.classDiffers;
         if (c.valid) {
             in.allocated = c.allocated;
             in.allocatedAttrs = c.attributes;
-            if (!c.className.empty()) in.className = c.className;
-            if (!c.ascendancy.empty()) in.ascendancy = c.ascendancy;
-            // Ascendancies are compared by the nodes they use (nodesName), never by internalId: an
-            // Abyssal Lich has only Lich nodes, so the game's data reads as "Witch3" for it.
-            m_plan.classDiffers = (c.classId >= 0 && spec->classId >= 0 && c.classId != spec->classId) ||
-                                  (!c.ascendancy.empty() && buildAsc && c.ascendancy != buildAsc->nodesName);
         }
         m_plan.charKnown = c.valid;
         m_plan.className = in.className;

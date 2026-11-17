@@ -248,6 +248,7 @@
   "import_problem_not_found": "이 링크로 찾을 수 있는 빌드가 사이트에 없습니다. 만료되었거나 링크가 잘렸을 수 있습니다. 링크를 다시 복사하세요.",
   "import_problem_parse": "빌드를 가져오지 못했습니다: {detail}. Path of Building (PoE2)에서 다시 내보내고 새 코드를 가져오세요.",
   "import_problem_unrecognized": "빌드 링크도 Path of Building 코드도 아닙니다. pobb.in, poe.ninja, Maxroll, poe2db, pastebin의 링크나 Path of Building (PoE2)에서 내보낸 코드를 붙여넣으세요.",
+  "import_same": "이 빌드는 이미 목록에 {name} 이름으로 있습니다. 아무것도 추가하지 않았습니다. 이제 이 빌드를 따릅니다. 게임에서 패시브 스킬 트리, 소지품창 또는 스킬 창을 여세요.",
   "import_store_full": "빌드를 저장하지 않았습니다. 저장된 빌드 목록이 가득 찼습니다. 더 이상 쓰지 않는 빌드를 삭제하고 다시 가져오세요.",
   "import_title": "빌드 가져오기",
   "ov_attr_dex": "민첩",

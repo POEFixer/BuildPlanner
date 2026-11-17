@@ -248,6 +248,7 @@
   "import_problem_not_found": "Le site n'a aucun build à ce lien. Il a peut-être expiré, ou le lien est tronqué : copiez de nouveau le lien.",
   "import_problem_parse": "Le build n'a pas été importé : {detail}. Exportez-le de nouveau depuis Path of Building (PoE2) et importez le nouveau code.",
   "import_problem_unrecognized": "Ce n'est ni un lien de build ni un code Path of Building. Collez un lien de pobb.in, poe.ninja, Maxroll, poe2db ou pastebin, ou un code exporté depuis Path of Building (PoE2).",
+  "import_same": "Ce build est déjà dans votre liste sous le nom {name} : rien n'a été ajouté. Il est maintenant suivi : ouvrez en jeu l'Arbre des Talents, l'Inventaire ou la fenêtre des Aptitudes.",
   "import_store_full": "Le build n'a pas été enregistré : la liste des builds enregistrés est pleine. Supprimez un build que vous n'utilisez plus et importez à nouveau.",
   "import_title": "Importer un build",
   "ov_attr_dex": "Dextérité",

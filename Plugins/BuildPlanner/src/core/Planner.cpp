@@ -511,6 +511,21 @@ void AnnotateList(const PassiveTree& t, const std::vector<PlanStep>& steps, std:
 
 } // namespace
 
+PlanIdentity ResolvePlanIdentity(int buildClassId, const std::string& buildClassName, const std::string& buildAscendancy,
+                                 bool charKnown, int charClassId, const std::string& charClassName,
+                                 const std::string& charAscendancy) {
+    PlanIdentity r;
+    r.className = buildClassName;
+    r.ascendancy = buildAscendancy;
+    if (!charKnown) return r;
+    const bool otherClass = charClassId >= 0 && buildClassId >= 0 && charClassId != buildClassId;
+    if (!charClassName.empty()) r.className = charClassName;
+    if (!charAscendancy.empty()) r.ascendancy = charAscendancy;
+    else if (otherClass) r.ascendancy.clear();   // the build's ascendancy is not this character's to take
+    r.classDiffers = otherClass || (!charAscendancy.empty() && !buildAscendancy.empty() && charAscendancy != buildAscendancy);
+    return r;
+}
+
 Plan BuildPlan(const PlanInput& in) {
     try {
         return BuildPlanImpl(in);

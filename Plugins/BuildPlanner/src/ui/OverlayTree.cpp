@@ -524,7 +524,9 @@ void BuildSummary(Card& card, App& app, const PassiveTree& tree) {
                   theme::Opaque(s.colorNext));
     } else if (next.kind == NextKind::Done) {
         card.MarkLine(Mark::Tick, I18n::Tr("ov_sum_done"), theme::Opaque(s.colorMissing));
-    } else {
+    } else if (!pv.classDiffers) {
+        // With another class nothing is in reach by design: the class line below says what to do,
+        // and "refund the red ones first" would send the player the wrong way.
         card.Small(I18n::Tr("ov_sum_blocked"));
     }
 

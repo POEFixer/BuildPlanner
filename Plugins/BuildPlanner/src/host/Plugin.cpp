@@ -86,6 +86,6 @@ extern "C" PLUGIN_API void DestroyPlugin(PluginSDK::Plugin* p) { delete p; }
 POEFIXER_PLUGIN_INFO(
     "BuildPlanner",
     "Build Planner",
-    "1.0.0",
+    "1.0.1",
     "POEFixer",
     "Shows a Path of Building build in the game: the next passive points on the tree, the recommended item on each equipment slot and the skills with their support gems.")

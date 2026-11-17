@@ -248,6 +248,7 @@
   "import_problem_not_found": "O site não tem nenhuma build com este link. Ela pode ter expirado ou o link está cortado: copie o link de novo.",
   "import_problem_parse": "A build não foi importada: {detail}. Exporte-a de novo do Path of Building (PoE2) e importe o novo código.",
   "import_problem_unrecognized": "Isto não é um link de build nem um código do Path of Building. Cole um link de pobb.in, poe.ninja, Maxroll, poe2db ou pastebin, ou um código exportado do Path of Building (PoE2).",
+  "import_same": "Esta build já está na sua lista como {name}: nada foi adicionado. Ela já está sendo seguida: abra no jogo a árvore de habilidades passivas, o inventário ou a janela de Habilidades.",
   "import_store_full": "A build não foi salva: a lista de builds salvas está cheia. Apague uma build que você não usa mais e importe de novo.",
   "import_title": "Importar uma build",
   "ov_attr_dex": "Destreza",

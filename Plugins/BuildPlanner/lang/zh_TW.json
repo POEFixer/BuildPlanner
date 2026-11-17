@@ -248,6 +248,7 @@
   "import_problem_not_found": "該網站在此連結下沒有流派。連結可能已過期或不完整：請重新複製連結。",
   "import_problem_parse": "流派未匯入：{detail}。請從 Path of Building (PoE2) 重新匯出，並匯入新的代碼。",
   "import_problem_unrecognized": "這既不是流派連結，也不是 Path of Building 代碼。請貼上 pobb.in、poe.ninja、Maxroll、poe2db 或 pastebin 的連結，或從 Path of Building (PoE2) 匯出的代碼。",
+  "import_same": "此流派已在清單中，名稱為 {name}：未新增任何項目。已開始跟隨此流派：請在遊戲中開啟天賦樹、背包或技能面板。",
   "import_store_full": "流派未儲存：已儲存的流派清單已滿。請刪除一個不再使用的流派，然後重新匯入。",
   "import_title": "匯入流派",
   "ov_attr_dex": "敏捷",

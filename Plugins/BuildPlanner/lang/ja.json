@@ -248,6 +248,7 @@
   "import_problem_not_found": "このリンクのビルドはサイトにありません。期限切れか、リンクが途中で切れている可能性があります：リンクをもう一度コピーしてください。",
   "import_problem_parse": "ビルドをインポートできませんでした：{detail}。Path of Building (PoE2) からもう一度エクスポートし、新しいコードをインポートしてください。",
   "import_problem_unrecognized": "ビルドのリンクでも Path of Building のコードでもありません。pobb.in、poe.ninja、Maxroll、poe2db、pastebin のリンク、または Path of Building (PoE2) からエクスポートしたコードを貼り付けてください。",
+  "import_same": "このビルドは{name}としてすでに一覧にあります：何も追加されていません。このビルドを使用中です：ゲーム内でパッシブツリー、インベントリ、スキルパネルのいずれかを開いてください。",
   "import_store_full": "ビルドは保存されませんでした：保存済みビルドの一覧がいっぱいです。使わないビルドを削除してから、もう一度インポートしてください。",
   "import_title": "ビルドをインポート",
   "ov_attr_dex": "器用さ",

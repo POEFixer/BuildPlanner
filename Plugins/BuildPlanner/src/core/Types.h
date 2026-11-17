@@ -186,11 +186,13 @@ inline constexpr size_t kMaxStoreFileBytes = 12u << 20;   // builds.json as writ
 struct SpecSocket {
     uint16_t nodeId = 0;       // the jewel socket's passive id
     int itemIndex = -1;        // index into BuildData::items, -1 = the jewel is not in the build's items
+    bool operator==(const SpecSocket&) const = default;
 };
 
 struct SpecNote {
     uint16_t nodeId = 0;
     std::string text;          // the author's note for this node (<= kMaxNoteBytes)
+    bool operator==(const SpecNote&) const = default;
 };
 
 // One passive tree of the build ("spec" in Path of Building; a stage of a leveling build).
@@ -210,6 +212,7 @@ struct BuildSpec {
     std::vector<uint16_t> attrStr, attrDex, attrInt;
     std::vector<SpecSocket> sockets;   // sorted by nodeId
     std::vector<SpecNote> notes;       // sorted by nodeId
+    bool operator==(const BuildSpec&) const = default;
 };
 
 // Where a skill group comes from.
@@ -232,6 +235,7 @@ struct BuildGem {
     int quality = 0;
     bool enabled = true;
     bool support = false;    // resolved at import (GemData, else the id heuristic of IsSupportGem)
+    bool operator==(const BuildGem&) const = default;
 };
 
 // One skill group: the gems that work together. The group's main skill is the mainActive-th
@@ -242,22 +246,26 @@ struct BuildSkillGroup {
     int mainActive = 0;      // 0-based index among the group's NON-support gems (clamped at import)
     GroupSource source = GroupSource::Gems;
     std::vector<BuildGem> gems;
+    bool operator==(const BuildSkillGroup&) const = default;
 };
 
 struct BuildSkillSet {
     std::string title;
     std::vector<BuildSkillGroup> groups;
+    bool operator==(const BuildSkillSet&) const = default;
 };
 
 struct BuildItemSlot {
     std::string name;        // PoB's slot name ("Weapon 1", "Helmet", "Charm 2", "Jewel 26725", ...)
     int itemIndex = -1;      // index into BuildData::items, -1 = the slot is empty in this set
+    bool operator==(const BuildItemSlot&) const = default;
 };
 
 struct BuildItemSet {
     std::string title;
     bool useSecondWeaponSet = false;
     std::vector<BuildItemSlot> slots;   // only slots with an item or a known GearSlot name; PoB order
+    bool operator==(const BuildItemSet&) const = default;
 };
 
 // Tags of one mod line (the {...} prefixes of PoB item text).
@@ -275,6 +283,7 @@ enum ModTag : uint32_t {
 struct ItemModLine {
     std::string text;        // one line, no {...} prefix, no "(implicit)" suffix (<= kMaxModBytes)
     uint32_t tags = 0;       // ModTag bits
+    bool operator==(const ItemModLine&) const = default;
 };
 
 struct BuildItem {
@@ -294,6 +303,7 @@ struct BuildItem {
 
     // What to call the item in one line: its name when it has one, else the base.
     const std::string& DisplayName() const { return name.empty() ? base : name; }
+    bool operator==(const BuildItem&) const = default;
 };
 
 // A decoded Path of Building build: what an import produces and what a StoredBuild keeps. Never the
@@ -308,6 +318,9 @@ struct BuildData {
     std::vector<BuildSkillSet> skillSets;
     std::vector<BuildItemSet> itemSets;
     std::vector<BuildItem> items;          // referenced by index from itemSets and specs[].sockets
+    // The same build: everything an import decodes. A StoredBuild is compared as its BuildData (its
+    // id, name, source, import time and the user's pins are not content).
+    bool operator==(const BuildData&) const = default;
 };
 
 struct StoredBuild : BuildData {

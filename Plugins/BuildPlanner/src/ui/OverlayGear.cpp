@@ -9,12 +9,18 @@
 // hovered slot. The regions are tried in the order the contract names; when the card fits in none of
 // them whole, it is rebuilt narrower / with fewer mod lines for the one that keeps the most; when not
 // even the bare card fits beside the tooltip and the slot, no card is drawn (the slot's mark stays).
+//
+// Order of one frame: the card is PLACED first, then the marks are drawn, then the card. A mark of
+// another slot that lies under the card is left out: the card is translucent (Settings::cardOpacity)
+// and the mark would show through its text.
 #include "GearShown.h"
 #include "Theme.h"
 #include "Ui.h"
 
 #include <cmath>
+#include <optional>
 #include <string>
+#include <utility>
 
 namespace bp {
 namespace {
@@ -151,11 +157,12 @@ struct Region {
     }
 };
 
-void DrawHoverCard(ImDrawList* dl, App& app, const BuildItem& item, GearSlot slot, const SlotAdvice& advice, const Rect& slotRect,
-                   const theme::Avoid& tips) {
+// Builds the card for the hovered slot and finds its place: `out` and `at` are set, and
+// theme::HoverCardBox(), when a place was found. Nothing is drawn here (DrawGear draws it last).
+void PlaceHoverCard(App& app, const BuildItem& item, GearSlot slot, const SlotAdvice& advice, const Rect& slotRect,
+                    const theme::Avoid& tips, std::optional<Card>& out, ImVec2& at) {
     const OverlayFrame& f = app.Frame();
     const GearFrame& gf = f.gearFrame;
-    const float opacity = app.Config().cardOpacity;
     const float w = f.clientW, h = f.clientH;
     const float m = PluginUi::SnapPx(Em() * 0.25f), gap = PluginUi::SnapPx(Em() * 0.4f);
 
@@ -193,11 +200,12 @@ void DrawHoverCard(ImDrawList* dl, App& app, const BuildItem& item, GearSlot slo
         clear[i].Carve(window, gap);
     }
 
+    // The callers return right after: the card is theirs no longer.
     const auto draw = [&](Card& card, const Region& region) {
         const ImVec2 size = card.Size();
-        const ImVec2 pos = region.Place(size);
-        card.Draw(dl, pos, opacity);
-        theme::HoverCardBox() = Rect{pos.x, pos.y, size.x, size.y, true};
+        at = region.Place(size);
+        theme::HoverCardBox() = Rect{at.x, at.y, size.x, size.y, true};
+        out.emplace(std::move(card));
     };
 
     const float preferred = std::min(Em() * 22.0f, std::max(Em() * 12.0f, w * 0.42f));
@@ -304,8 +312,23 @@ void DrawGear(App& app) {
 
     const GearFrame& gf = f.gearFrame;
     const theme::Avoid tips = theme::GameTooltips(f.pose, gf, f.skillsFrame);
-    theme::Avoid window;
-    window.Add(theme::SkillsWindowBox());
+
+    // The card first (placed, not drawn): the marks below keep off its box.
+    std::optional<Card> card;
+    ImVec2 cardAt(0.0f, 0.0f);
+    if (s.showGearCard && gf.hovered >= 0 && static_cast<size_t>(gf.hovered) < kGearSlotCount) {
+        const size_t slot = static_cast<size_t>(gf.hovered);
+        const SlotAdvice& sa = advice.slots[slot];
+        const Rect& r = gf.slotRect[slot];
+        if (sa.itemIndex >= 0 && static_cast<size_t>(sa.itemIndex) < av.build->items.size() && r.ok)
+            PlaceHoverCard(app, av.build->items[static_cast<size_t>(sa.itemIndex)], static_cast<GearSlot>(slot), sa, r, tips, card,
+                           cardAt);
+    }
+
+    // Our own boxes: the "Build skills" window and the card of this frame.
+    theme::Avoid own;
+    own.Add(theme::SkillsWindowBox());
+    if (card) own.Add(theme::HoverCardBox());
     if (s.showSlotMarks) {
         const float inset = std::max(1.0f, PluginUi::SnapPx(Em() * 0.1f));
         for (size_t i = 0; i < kGearSlotCount; ++i) {
@@ -316,19 +339,13 @@ void DrawGear(App& app) {
             const float radius = theme::MarkRadiusOn(r, 0.2f);
             const ImVec2 centre(r.Right() - radius - inset, r.y + radius + inset);
             // No mark on a tooltip of the game (an item's covers the slots left of the hovered one, a
-            // gem's from the Skills panel the top of the inventory), nor on our own window.
-            if (tips.HitsDisc(centre, radius + 1.0f) || window.HitsDisc(centre, radius)) continue;
+            // gem's from the Skills panel the top of the inventory), nor under our own window or card.
+            if (tips.HitsDisc(centre, radius + 1.0f) || own.HitsDisc(centre, radius)) continue;
             theme::DrawMark(dl, centre, radius, mark);
         }
     }
 
-    if (s.showGearCard && gf.hovered >= 0 && static_cast<size_t>(gf.hovered) < kGearSlotCount) {
-        const size_t slot = static_cast<size_t>(gf.hovered);
-        const SlotAdvice& sa = advice.slots[slot];
-        const Rect& r = gf.slotRect[slot];
-        if (sa.itemIndex >= 0 && static_cast<size_t>(sa.itemIndex) < av.build->items.size() && r.ok)
-            DrawHoverCard(dl, app, av.build->items[static_cast<size_t>(sa.itemIndex)], static_cast<GearSlot>(slot), sa, r, tips);
-    }
+    if (card) card->Draw(dl, cardAt, s.cardOpacity);
 }
 
 } // namespace

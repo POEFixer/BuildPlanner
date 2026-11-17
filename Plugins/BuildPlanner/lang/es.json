@@ -248,6 +248,7 @@
   "import_problem_not_found": "El sitio no tiene ninguna build con este enlace. Puede haber caducado o estar cortado: vuelve a copiar el enlace.",
   "import_problem_parse": "No se importó la build: {detail}. Vuelve a exportarla desde Path of Building (PoE2) e importa el código nuevo.",
   "import_problem_unrecognized": "No es un enlace de build ni un código de Path of Building. Pega un enlace de pobb.in, poe.ninja, Maxroll, poe2db o pastebin, o un código exportado desde Path of Building (PoE2).",
+  "import_same": "Esta build ya está en tu lista como {name}: no se añadió nada. Ya la sigues: abre en el juego el árbol de pasivas, el inventario o el panel de habilidades.",
   "import_store_full": "No se guardó la build: la lista de builds guardadas está llena. Elimina una build que ya no uses y vuelve a importar.",
   "import_title": "Importar una build",
   "ov_attr_dex": "Destreza",

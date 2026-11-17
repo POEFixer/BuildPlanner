@@ -248,6 +248,7 @@
   "import_problem_not_found": "Die Seite hat unter diesem Link keinen Build. Er ist vielleicht abgelaufen, oder der Link ist abgeschnitten: Kopiere den Link erneut.",
   "import_problem_parse": "Der Build wurde nicht importiert: {detail}. Exportiere ihn erneut aus Path of Building (PoE2) und importiere den neuen Code.",
   "import_problem_unrecognized": "Das ist weder ein Build-Link noch ein Path-of-Building-Code. Füge einen Link von pobb.in, poe.ninja, Maxroll, poe2db oder pastebin ein, oder einen aus Path of Building (PoE2) exportierten Code.",
+  "import_same": "Dieser Build ist bereits als {name} in deiner Liste: Es wurde nichts hinzugefügt. Du folgst ihm jetzt: Öffne im Spiel den Fertigkeitenbaum, das Inventar oder die Fertigkeitenübersicht.",
   "import_store_full": "Der Build wurde nicht gespeichert: Die Liste der gespeicherten Builds ist voll. Lösche einen Build, den du nicht mehr nutzt, und importiere erneut.",
   "import_title": "Build importieren",
   "ov_attr_dex": "Geschick",
