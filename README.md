@@ -13,6 +13,8 @@ Shows a Path of Building build inside Path of Exile 2, where you need it:
 - on your **skills**: every skill of the build with its support gems, as marks on the game's Skills window
   and in a window of its own.
 
+![The build's points and paths drawn on the game's passive tree](Plugins/BuildPlanner/screenshots/passive-tree.jpg)
+
 Build Planner only reads the game and draws on top of it. It never clicks, never presses a key and never
 changes your character.
 
@@ -30,6 +32,8 @@ not a build by itself: open the guide's Path of Building link (`maxroll.gg/poe2/
 
 Imported builds stay in the list until you delete them. Click a build to follow it; rename it to tell your
 builds apart.
+
+![The Builds tab: import, the list of builds, stages, and the game's own Build Planner](Plugins/BuildPlanner/screenshots/tab-builds.png)
 
 Build Planner uses the internet only when you import a link or press **Update tree data**. It sends nothing
 about you or your character.
@@ -57,6 +61,11 @@ Open the game's passive tree:
   next notable or keystone with its cost;
 - move the cursor over a ring to read what to do with that point and what it leads to.
 
+The **Passives** tab shows the same as a list, also while the game is closed: the next objectives in order with
+their cost in points, the ascendancy, and the attribute and weapon set choices of the build.
+
+![The Passives tab: the next objectives in order](Plugins/BuildPlanner/screenshots/tab-passives.png)
+
 ### Equipment
 
 Open the inventory. A green tick on a slot means you wear the build's item, an amber dot means the build has
@@ -66,15 +75,26 @@ a rare or magic item is compared by its base type ("Same base"), and its mods ar
 item card over the game says it the same way: "You wear this item", or "Same base type" with the name of
 the item you wear.
 
+![The build's item shown beside an equipment slot of the inventory](Plugins/BuildPlanner/screenshots/equipment.jpg)
+
+![The Gear tab: the build's item for every slot](Plugins/BuildPlanner/screenshots/tab-gear.png)
+
 ### Skills and support gems
 
 On the game's Skills window every support socket gets a mark: a green tick when that support is in the build,
 an amber arrow when the build uses another tier of it, a red cross when it is not in the build; beside the skill
 the plugin names the supports that are still missing.
+Skills of the build that your character does not have yet are listed in a **Missing skills** card beside
+the window.
+
+![The Missing skills card beside the game's Skills window](Plugins/BuildPlanner/screenshots/skills-window.jpg)
 
 The **Build skills** window lists every skill of the build with its support gems, and ticks what your
 character already has. It stays closed until you open it: give it a key on the **Display** tab, or press the
 button there. You can also let it open together with the game's Skills window, or keep it always on screen.
+The **Skills** tab lists the same outside the game.
+
+![The Skills tab: every skill of the build with its support gems](Plugins/BuildPlanner/screenshots/tab-skills.png)
 
 ### The game's own Build Planner
 
