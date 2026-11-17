@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    Build Planner: a POEFixer plugin DLL (see README.md, CLAUDE.md).
+      * every src\**\*.cpp is listed below: a new source file must be added here (and to the .filters);
+      * lib\miniz\miniz.c and the four ImGui sources are compiled into the DLL at warning level 3;
+      * data\*.json and lang\*.json are copied next to the built DLL (CopyFileToFolders, incremental):
+        the plugin reads data\ and lang\ from its own folder.
+    Gate: 0 errors and 0 warnings. Tests: tests\run.bat (they do not build this project).
+  -->
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{CF5EDF45-EFCF-4FE4-8416-028B7A75C824}</ProjectGuid>
+    <RootNamespace>BuildPlanner</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)x64\Release\Plugins\BuildPlanner\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <TargetName>BuildPlanner</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)x64\Debug\Plugins\BuildPlanner\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <TargetName>BuildPlanner</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>PLUGIN_EXPORTS;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\..\POEFixer;..\..\POEFixer\imgui;lib;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>winhttp.lib;user32.lib;shell32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>PLUGIN_EXPORTS;_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>..\..\POEFixer;..\..\POEFixer\imgui;lib;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winhttp.lib;user32.lib;shell32.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\BuildFile.cpp" />
+    <ClCompile Include="src\core\BuildStore.cpp" />
+    <ClCompile Include="src\core\CharReader.cpp" />
+    <ClCompile Include="src\core\GearMatch.cpp" />
+    <ClCompile Include="src\core\FixtureGame.cpp" />
+    <ClCompile Include="src\core\GearReader.cpp" />
+    <ClCompile Include="src\core\GemData.cpp" />
+    <ClCompile Include="src\core\Http.cpp" />
+    <ClCompile Include="src\core\JsonFile.cpp" />
+    <ClCompile Include="src\core\Loadouts.cpp" />
+    <ClCompile Include="src\core\Offsets.cpp" />
+    <ClCompile Include="src\core\Planner.cpp" />
+    <ClCompile Include="src\core\PobImport.cpp" />
+    <ClCompile Include="src\core\PobItem.cpp" />
+    <ClCompile Include="src\core\Settings.cpp" />
+    <ClCompile Include="src\core\SkillMatch.cpp" />
+    <ClCompile Include="src\core\SkillsReader.cpp" />
+    <ClCompile Include="src\core\TreeData.cpp" />
+    <ClCompile Include="src\core\TreeReader.cpp" />
+    <ClCompile Include="src\host\App.cpp" />
+    <ClCompile Include="src\host\HostGame.cpp" />
+    <ClCompile Include="src\host\Plugin.cpp" />
+    <ClCompile Include="src\ui\Diagnostics.cpp" />
+    <ClCompile Include="src\ui\OverlayGear.cpp" />
+    <ClCompile Include="src\ui\OverlaySkills.cpp" />
+    <ClCompile Include="src\ui\OverlayTree.cpp" />
+    <ClCompile Include="src\ui\SettingsUi.cpp" />
+    <ClCompile Include="src\ui\SkillsWindow.cpp" />
+    <ClCompile Include="src\ui\TabBuilds.cpp" />
+    <ClCompile Include="src\ui\TabDisplay.cpp" />
+    <ClCompile Include="src\ui\TabGear.cpp" />
+    <ClCompile Include="src\ui\TabPassives.cpp" />
+    <ClCompile Include="src\ui\TabSkills.cpp" />
+    <ClCompile Include="lib\miniz\miniz.c">
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <ClCompile Include="..\..\POEFixer\imgui\imgui.cpp">
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\POEFixer\imgui\imgui_draw.cpp">
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\POEFixer\imgui\imgui_tables.cpp">
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <ClCompile Include="..\..\POEFixer\imgui\imgui_widgets.cpp">
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\BuildFile.h" />
+    <ClInclude Include="src\core\BuildStore.h" />
+    <ClInclude Include="src\core\CharReader.h" />
+    <ClInclude Include="src\core\Game.h" />
+    <ClInclude Include="src\core\GearMatch.h" />
+    <ClInclude Include="src\core\FixtureGame.h" />
+    <ClInclude Include="src\core\GearReader.h" />
+    <ClInclude Include="src\core\GemData.h" />
+    <ClInclude Include="src\core\Http.h" />
+    <ClInclude Include="src\core\JsonFile.h" />
+    <ClInclude Include="src\core\Loadouts.h" />
+    <ClInclude Include="src\core\Offsets.h" />
+    <ClInclude Include="src\core\PlanSummary.h" />
+    <ClInclude Include="src\core\Planner.h" />
+    <ClInclude Include="src\core\PobImport.h" />
+    <ClInclude Include="src\core\PobItem.h" />
+    <ClInclude Include="src\core\Settings.h" />
+    <ClInclude Include="src\core\SkillMatch.h" />
+    <ClInclude Include="src\core\SkillsReader.h" />
+    <ClInclude Include="src\core\TreeData.h" />
+    <ClInclude Include="src\core\TreeReader.h" />
+    <ClInclude Include="src\core\Types.h" />
+    <ClInclude Include="src\host\App.h" />
+    <ClInclude Include="src\host\HostGame.h" />
+    <ClInclude Include="src\lang_en.generated.h" />
+    <ClInclude Include="src\ui\GearShown.h" />
+    <ClInclude Include="src\ui\SettingsCommon.h" />
+    <ClInclude Include="src\ui\Theme.h" />
+    <ClInclude Include="src\ui\Ui.h" />
+    <ClInclude Include="lib\miniz\miniz.h" />
+    <ClInclude Include="lib\nlohmann\json.hpp" />
+    <ClInclude Include="..\..\POEFixer\plugin_sdk\PluginAbi.h" />
+    <ClInclude Include="..\..\POEFixer\plugin_sdk\PluginI18n.h" />
+    <ClInclude Include="..\..\POEFixer\plugin_sdk\PluginInfoWindow.h" />
+    <ClInclude Include="..\..\POEFixer\plugin_sdk\PluginSDK.h" />
+    <ClInclude Include="..\..\POEFixer\plugin_sdk\PluginUi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="data\gems.json">
+      <DestinationFolders>$(OutDir)data</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="data\offsets.json">
+      <DestinationFolders>$(OutDir)data</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="data\tree.json">
+      <DestinationFolders>$(OutDir)data</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\de.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\en.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\es.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\fr.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\ja.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\ko.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\pt_BR.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\ru.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\th.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="lang\zh_TW.json">
+      <DestinationFolders>$(OutDir)lang</DestinationFolders>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+    <None Include="CHANGELOG.md" />
+    <None Include="THIRD_PARTY_NOTICES.md" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
